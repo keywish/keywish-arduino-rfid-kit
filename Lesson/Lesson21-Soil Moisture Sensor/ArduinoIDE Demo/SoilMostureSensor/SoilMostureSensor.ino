@@ -21,48 +21,29 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
  * or FITNESS FOR A PARTICULAR PURPOSE.
  *
- *
- * [Title]    lcd1602 display string .
- * [Diagram]
-
- *         Arduino PIN 5   ===================  lcd1602 pin 11
- *         Arduino PIN 4   ===================  lcd1602 pin 12
- *         Arduino PIN 3   ===================  lcd1602 pin 13
- *         Arduino PIN 2   ===================  lcd1602 pin 14
-
- *         Arduino PIN 11  ===================  lcd1602 pin 5
- *         Arduino PIN 12  ===================  lcd1602 pin 6
  */
-#include <LiquidCrystal.h>
-#define    DB4   5   // lcd1602 DB4
-#define    DB5   4   // lcd1602 DB5
-#define    DB6   3   // lcd1602 DB6
-#define    DB7   2   // lcd1602 DB7
-
-#define    LCD1602_RS   12
-#define    LCD1602_E   11
-#define    SOIL_SENSOR_AO 0
-
-// initialize the library with the numbers of the interface pins
-LiquidCrystal lcd(LCD1602_RS,LCD1602_E,DB4,DB5,DB6,DB7);  // lcd init
-
+#include <Wire.h>
+#include "LiquidCrystal_I2C.h"
 float i=0;
 float j=0;
-void setup() {
-    pinMode(SOIL_SENSOR_AO, INPUT);
-    // set up the LCD's number of columns and rows:
-    lcd.begin(16, 2);
+int analogPin = A0;
+LiquidCrystal_I2C lcd(0x27, 16, 2); // 0x27 is the I2C bus address for an unmodified backpack
+void setup()
+{
+  lcd.init();
+  lcd.backlight();
+  pinMode(analogPin, INPUT);
+  Serial.begin(9600);
 }
+
 void loop() {
-    float data=analogRead(SOIL_SENSOR_AO);
+    float data=analogRead(analogPin);
+    Serial.println(data);
     i=data/1023;
     j=(1-i)*100;
     lcd.setCursor(0, 0);
     lcd.print("The hum is: ");
-    // set the cursor to column 0, line 1
-    // (note: line 1 is the second row, since counting begins with 0):
     lcd.setCursor(0, 1);
-    // print the number of seconds since reset:
     lcd.print((float)j, 2);
     lcd.print("%");
     delay(200);
