@@ -31,15 +31,15 @@
 */
 
 #include "KW_Stepper.h"
-#define STEPS 300
+#define STEPS 64
 Stepper stepper(STEPS, 8, 9, 10, 11);
 
 // the previous reading from the analog input
 int previous = 0;
 
 void setup() {
-  // set the speed of the motor to 90 RPMs
-  stepper.setSpeed(90);
+  // set the speed of the motor to 200 RPMs
+  stepper.setSpeed(200);
   pinMode(A0, INPUT);
 }
 
