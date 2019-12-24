@@ -38,7 +38,7 @@ void led_turn_off(void)
 void setup() {
   // put your setup code here, to run once:
     int i ;
-    Serial.begin(115200);
+    Serial.begin(9600);
     for( i = 0 ; i < 8 ; i++ )
     {
         pinMode(led_array[i],OUTPUT);

@@ -22,9 +22,6 @@
  * or FITNESS FOR A PARTICULAR PURPOSE.
  *
  *
- * [Title]     Adjust LED Brightness by photoconductive resistance
- * [diagram]
- *            Arduino  pin0  ===================   photoconductive
  *
  */
 int  ADPIN  = A0  ;
@@ -34,18 +31,15 @@ float voltage = 0.0 ;
 void setup()
 {
     pinMode(LEDPIN,OUTPUT);
+    pinMode(ADPIN,INPUT);
     Serial.begin(9600);    //Serial Baud rate is 115200
 }
 void loop()
 {
-    value =  analogRead(ADPIN);
+    value =  analogRead(ADPIN);    
     voltage = ( ( float )value )/1023 ;
-    Serial.println("voltage =");
-    Serial.println(voltage );
-    value = (int)voltage * 256 ;  //convert voltage to value
-    Serial.println(" value =");
-    Serial.println(value );
+   value = (int)(voltage * 256) ;              //convert voltage to value
+    Serial.println(value);
     analogWrite(LEDPIN,value);
-    
-    delay(1000);
+ 
 }
